@@ -1,5 +1,5 @@
 import BoardItem from "../BoardItem/BoardItem";
-import { useAppSelector } from "../../store/hook";
+import { useAppSelector } from "../../../store/hook";
 import { BoardListStyle } from "./BoardList.css";
 
 export default function BoardList() {
@@ -8,7 +8,7 @@ export default function BoardList() {
   return (
     <div className={BoardListStyle}>
       {Object.values(boards).map((board) => (
-        <BoardItem key={board.id} title={board.title} />
+        <BoardItem key={board.id} title={board.title} id={board.id} />
       ))}
     </div>
   );

@@ -1,6 +1,6 @@
 import { BoardButtonStyle } from "./BoardButton.css";
-import { addBoard } from "../../store/reduxToolkit/boardSlice";
-import { useAppDispatch } from "../../store/hook";
+import { addBoard } from "../../../store/reduxToolkit/boardSlice";
+import { useAppDispatch } from "../../../store/hook";
 import { v4 as uuidv4 } from "uuid";
 type BoardButtonProps = {
   label: string;

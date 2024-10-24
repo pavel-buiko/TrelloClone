@@ -1,5 +1,5 @@
-import BoardButton from "../BoardButton/BoardButton";
-import BoardList from "../BoardList/BoardList";
+import BoardButton from "./BoardButton/BoardButton";
+import BoardList from "./BoardList/BoardList";
 import { BoardPanelStyle } from "./BoardPanelStyle.css";
 
 export default function BoardPanel() {

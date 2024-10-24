@@ -9,6 +9,7 @@ export const BoardItemStyle = style({
   backgroundColor: "#7c7c7c",
   border: "1px solid black",
   borderRadius: "15px",
+  marginBottom: "15px",
 });
 
 export const editButton = style({

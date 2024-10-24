@@ -10,7 +10,7 @@ type List = {
   id: string;
   title: string;
   boardId: string;
-  tasksId: string[];
+  taskIds: string[];
 };
 
 type Task = {
@@ -37,7 +37,22 @@ const boardSlice = createSlice({
   initialState,
   reducers: {
     addBoard(state, action) {
-      state.boards.push();
+      const { id, title } = action.payload;
+      state.boards[id] = { id, title, listIds: [] };
+    },
+    addList(state, action) {
+      const { id, title, boardId } = action.payload;
+      state.lists[id] = { id, title, boardId, taskIds: [] };
+      state.boards[boardId].listIds.push(id);
+    },
+    addTask(state, action) {
+      const { id, title, listId } = action.payload;
+      state.tasks[id] = { id, title, description: "", listId };
+      state.lists[listId].taskIds.push(id);
     },
   },
 });
+
+export default boardSlice.reducer;
+
+export const { addBoard, addList, addTask } = boardSlice.actions;

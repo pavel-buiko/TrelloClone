@@ -5,7 +5,7 @@ import { BoardPanelStyle } from "./BoardPanelStyle.css";
 export default function BoardPanel() {
   return (
     <div className={BoardPanelStyle}>
-      <BoardButton label="Press me" />
+      <BoardButton label="Add Board" />
       <BoardList />
     </div>
   );

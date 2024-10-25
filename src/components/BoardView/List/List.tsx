@@ -16,7 +16,8 @@ import {
   deleteList,
 } from "../../../store/reduxToolkit/boardSlice";
 import { InlineEdit } from "rsuite";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdDragIndicator } from "react-icons/md";
+import { Droppable, Draggable } from "@hello-pangea/dnd";
 
 type ListProps = {
   listId: string;
@@ -24,22 +25,22 @@ type ListProps = {
 
 export default function List({ listId }: ListProps) {
   const list = useAppSelector((state) => state.board.lists[listId]);
-  const disaptch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = () => {
     const newTaskId = uuidv4();
     const taskTitle = prompt("Enter task name");
     if (!taskTitle) return;
-    disaptch(addTask({ id: newTaskId, title: taskTitle, listId: listId }));
+    dispatch(addTask({ id: newTaskId, title: taskTitle, listId: listId }));
   };
 
   const deleteListFunc = () => {
-    disaptch(deleteList({ id: listId }));
+    dispatch(deleteList({ id: listId }));
   };
 
-  const titleChange = (e) => {
+  const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
-    disaptch(updateListTitle({ id: listId, title: newTitle }));
+    dispatch(updateListTitle({ id: listId, title: newTitle }));
   };
 
   if (!list) {
@@ -47,24 +48,51 @@ export default function List({ listId }: ListProps) {
   }
 
   return (
-    <div className={taskList}>
-      <h4 className={listHeader}>
-        <InlineEdit
-          className={listTitle}
-          showControls={false}
-          defaultValue={list.title}
-          onSave={titleChange}
-        />
-        <button onClick={deleteListFunc} className={deleteListButton}>
-          <MdDelete />
-        </button>
-      </h4>
-      {list.taskIds.map((taskId) => (
-        <Task key={taskId} taskId={taskId} />
-      ))}
-      <button className={taskButton} onClick={handleSubmit}>
-        Add task
-      </button>
-    </div>
+    <Droppable droppableId={listId} type="TASK">
+      {(provided) => (
+        <div
+          className={taskList}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          <h4 className={listHeader}>
+            <InlineEdit
+              className={listTitle}
+              showControls={false}
+              defaultValue={list.title}
+              onChange={titleChange}
+            />
+            <button onClick={deleteListFunc} className={deleteListButton}>
+              <MdDelete />
+            </button>
+          </h4>
+          {list.taskIds.map((taskId, index) => (
+            <Draggable key={taskId} draggableId={taskId} index={index}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    ...provided.draggableProps.style,
+                  }}
+                >
+                  <MdDragIndicator
+                    style={{ marginRight: "8px", cursor: "grab" }}
+                  />{" "}
+                  <Task taskId={taskId} />
+                </div>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+          <button className={taskButton} onClick={handleSubmit}>
+            Add task
+          </button>
+        </div>
+      )}
+    </Droppable>
   );
 }

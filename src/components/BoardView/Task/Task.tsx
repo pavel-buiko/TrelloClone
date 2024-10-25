@@ -28,7 +28,7 @@ export default function Task({ taskId }: TaskProps) {
     task?.description || ""
   );
 
-  const inlineTaskTitleEdit = (e) => {
+  const inlineTaskTitleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     dispatch(updateTaskTitle({ id: taskId, title: newTitle }));
   };
@@ -37,7 +37,9 @@ export default function Task({ taskId }: TaskProps) {
     dispatch(deleteTask({ id: taskId }));
   };
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setDescriptionText(e.target.value);
   };
 

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Board = {
   id: string;
@@ -108,6 +108,32 @@ const boardSlice = createSlice({
         console.log("Updates task description ", state.tasks[id].description);
       }
     },
+    moveTask: (
+      state,
+      action: PayloadAction<{
+        taskId: string;
+        sourceListId: string;
+        destinationListId: string;
+        sourceIndex: number;
+        destinationIndex: number;
+      }>
+    ) => {
+      const {
+        taskId,
+        sourceListId,
+        destinationListId,
+        sourceIndex,
+        destinationIndex,
+      } = action.payload;
+
+      state.lists[sourceListId].taskIds.splice(sourceIndex, 1);
+
+      state.lists[destinationListId].taskIds.splice(
+        destinationIndex,
+        0,
+        taskId
+      );
+    },
   },
 });
 
@@ -123,4 +149,5 @@ export const {
   deleteList,
   deleteTask,
   updateTaskDescription,
+  moveTask,
 } = boardSlice.actions;

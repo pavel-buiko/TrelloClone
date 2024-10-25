@@ -16,8 +16,7 @@ export default function BoardItem({ title, id }: BoardItemProps) {
     dispatch(selectBoard(id));
   };
 
-  const deleteBoardItem = (e) => {
-    e.stopPropagation();
+  const deleteBoardItem = () => {
     dispatch(deleteBoard({ id: id }));
   };
 

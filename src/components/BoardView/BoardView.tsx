@@ -49,7 +49,7 @@ export default function BoardView({ boardId }: BoardViewProps) {
 
   return (
     <div className={boardViewWrapper}>
-      <BoardHeader boardId={boardId} boardTitle={board.title} />
+      <BoardHeader boardId={boardId} />
       <DragDropContext onDragEnd={onDragEnd}>
         <div className={listsWrapper}>
           {board.listIds.map((listId) => (

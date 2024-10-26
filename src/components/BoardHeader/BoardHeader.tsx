@@ -1,17 +1,31 @@
-import { useAppDispatch } from "../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { updateBoardTitle } from "../../store/reduxToolkit/boardSlice";
 import { header, boardName } from "./BoardHeader.css";
-
+import { useState } from "react";
 type boardHeaderProps = {
   boardId: string;
-  boardTitle: string;
 };
 
-export default function BoardHeader({ boardId, boardTitle }: boardHeaderProps) {
+export default function BoardHeader({ boardId }: boardHeaderProps) {
   const dispatch = useAppDispatch();
-  const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    dispatch(updateBoardTitle({ id: boardId, title: newTitle }));
+  const board = useAppSelector((state) => state.board.boards[boardId]);
+  const [editedTitle, setEditedTitle] = useState(board?.title || "");
+
+  const inlineBoardTitleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      dispatch(updateBoardTitle({ id: boardId, title: editedTitle }));
+      e.currentTarget.blur();
+    }
+  };
+
+  const handleBlurTitle = () => {
+    if (editedTitle !== board.title) {
+      dispatch(updateBoardTitle({ id: boardId, title: editedTitle }));
+    }
   };
 
   return (
@@ -19,8 +33,10 @@ export default function BoardHeader({ boardId, boardTitle }: boardHeaderProps) {
       <input
         type="text"
         className={boardName}
-        value={boardTitle}
-        onChange={titleChange}
+        value={editedTitle}
+        onChange={inlineBoardTitleEdit}
+        onKeyDown={handleKeyDown}
+        onBlur={handleBlurTitle}
       />
     </div>
   );

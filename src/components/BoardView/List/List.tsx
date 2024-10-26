@@ -20,6 +20,7 @@ import {
 import { MdDelete, MdDragIndicator } from "react-icons/md";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 import { FaPlus } from "react-icons/fa6";
+import { useState } from "react";
 
 type ListProps = {
   listId: string;
@@ -27,6 +28,7 @@ type ListProps = {
 
 export default function List({ listId }: ListProps) {
   const list = useAppSelector((state) => state.board.lists[listId]);
+  const [editedTitle, setEditedTitle] = useState(list?.title || "");
   const dispatch = useAppDispatch();
 
   const handleSubmit = () => {
@@ -40,15 +42,26 @@ export default function List({ listId }: ListProps) {
     dispatch(deleteList({ id: listId }));
   };
 
-  const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    dispatch(updateListTitle({ id: listId, title: newTitle }));
-  };
-
   if (!list) {
     return <div>List not found</div>;
   }
 
+  const inlineListTitleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      dispatch(updateListTitle({ id: listId, title: editedTitle }));
+      e.currentTarget.blur();
+    }
+  };
+
+  const handleBlurTitle = () => {
+    if (editedTitle !== list.title) {
+      dispatch(updateListTitle({ id: listId, title: editedTitle }));
+    }
+  };
   return (
     <Droppable droppableId={listId} type="TASK">
       {(provided) => (
@@ -60,8 +73,10 @@ export default function List({ listId }: ListProps) {
           <h4 className={listHeader}>
             <input
               className={listTitle}
-              value={list.title}
-              onChange={titleChange}
+              value={editedTitle}
+              onChange={inlineListTitleEdit}
+              onKeyDown={handleKeyDown}
+              onBlur={handleBlurTitle}
             />
             <button onClick={deleteListFunc} className={deleteListButton}>
               <MdDelete />

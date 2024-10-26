@@ -1,11 +1,17 @@
 import List from "./List/List";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { listButtonStyle, listsWrapper } from "./BoardView.css";
+import {
+  listButtonStyle,
+  listsWrapper,
+  noBoard,
+  plusStyle,
+  boardViewWrapper,
+} from "./BoardView.css";
 import { addList, moveTask } from "../../store/reduxToolkit/boardSlice";
 import { v4 as uuidv4 } from "uuid";
-import { noBoard } from "./BoardView.css";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
-
+import { FaPlus } from "react-icons/fa6";
+import BoardHeader from "../BoardHeader/BoardHeader";
 type BoardViewProps = {
   boardId: string;
 };
@@ -42,15 +48,19 @@ export default function BoardView({ boardId }: BoardViewProps) {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className={listsWrapper}>
-        {board.listIds.map((listId) => (
-          <List key={listId} listId={listId} />
-        ))}
-        <button onClick={handleSubmit} className={listButtonStyle}>
-          Add list
-        </button>
-      </div>
-    </DragDropContext>
+    <div className={boardViewWrapper}>
+      <BoardHeader boardId={boardId} boardTitle={board.title} />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className={listsWrapper}>
+          {board.listIds.map((listId) => (
+            <List key={listId} listId={listId} />
+          ))}
+          <button onClick={handleSubmit} className={listButtonStyle}>
+            <FaPlus className={plusStyle} />
+            Add list
+          </button>
+        </div>
+      </DragDropContext>{" "}
+    </div>
   );
 }

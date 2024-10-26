@@ -2,10 +2,10 @@ import { style } from "@vanilla-extract/css";
 
 export const taskList = style({
   padding: "1rem",
-  color: "white",
+  color: "#f2f2f2",
   display: "flex",
   flexDirection: "column",
-  backgroundColor: "#303030b7",
+  backgroundColor: "#101204",
   height: "fit-content",
   width: "300px",
   gap: "15px",
@@ -14,24 +14,23 @@ export const taskList = style({
 
 export const listTitle = style({
   width: "100%",
+  color: "#f2f2f2",
+  background: "transparent",
+  border: "none",
 });
 
 export const taskButton = style({
   color: "#f2f2f2",
-  backgroundColor: "#cc4d5b",
+  backgroundColor: "transparent",
   padding: "0.5rem 0.5rem",
   fontSize: "14px",
   borderRadius: "8px",
-  boxShadow: "#cc4d5b 0px 0px 10px 1px",
   transition: "ease 0.3s",
+  display: "flex",
+  alignItems: "center",
   ":hover": {
-    backgroundColor: "#ff6167",
+    backgroundColor: "#282f27",
     transform: "translateY(-2px)",
-    boxShadow: "0 0px 10px 5px #cc4e5c",
-  },
-  ":active": {
-    boxShadow: "0 0px 0px 3px #cc4e5c",
-    transform: "translateY(0)",
   },
 });
 
@@ -42,4 +41,16 @@ export const listHeader = style({
 
 export const deleteListButton = style({
   background: "transparent",
+});
+
+export const plusStyle = style({
+  width: "15px",
+  height: "15px",
+  margin: "0px 10px 0px 0px",
+});
+
+export const taskWrapper = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });

@@ -9,15 +9,17 @@ import {
   taskButton,
   taskList,
   deleteListButton,
+  plusStyle,
+  taskWrapper,
 } from "./List.css";
 import {
   addTask,
   updateListTitle,
   deleteList,
 } from "../../../store/reduxToolkit/boardSlice";
-import { InlineEdit } from "rsuite";
 import { MdDelete, MdDragIndicator } from "react-icons/md";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
+import { FaPlus } from "react-icons/fa6";
 
 type ListProps = {
   listId: string;
@@ -56,10 +58,9 @@ export default function List({ listId }: ListProps) {
           {...provided.droppableProps}
         >
           <h4 className={listHeader}>
-            <InlineEdit
+            <input
               className={listTitle}
-              showControls={false}
-              defaultValue={list.title}
+              value={list.title}
               onChange={titleChange}
             />
             <button onClick={deleteListFunc} className={deleteListButton}>
@@ -73,15 +74,14 @@ export default function List({ listId }: ListProps) {
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
+                  className={taskWrapper}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
                     ...provided.draggableProps.style,
                   }}
                 >
                   <MdDragIndicator
                     style={{ marginRight: "8px", cursor: "grab" }}
-                  />{" "}
+                  />
                   <Task taskId={taskId} />
                 </div>
               )}
@@ -89,6 +89,7 @@ export default function List({ listId }: ListProps) {
           ))}
           {provided.placeholder}
           <button className={taskButton} onClick={handleSubmit}>
+            <FaPlus className={plusStyle} />
             Add task
           </button>
         </div>

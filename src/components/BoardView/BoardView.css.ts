@@ -6,24 +6,19 @@ export const noBoard = style({
 
 export const listButtonStyle = style({
   width: "250px",
-  height: "fit-content",
-  padding: "15px 25px",
+  height: "50px",
+  alignItems: "center",
+  display: "flex",
+  padding: "10px 20px 10px 5px",
+  borderRadius: "12px",
   color: "#f2f2f2",
-  backgroundColor: "#CC4E5C",
+  backgroundColor: "rgba(210, 210, 210, 0.5)",
   fontSize: "18px",
   cursor: "pointer",
   border: "0px",
-  borderRadius: "15px",
-  boxShadow: "#CC4E5C 0px 0px 10px 1px",
   transition: "ease 0.3s",
   ":hover": {
-    backgroundColor: "#ff6172",
-    transform: "translateY(-2px)",
-    boxShadow: "0 0px 10px 5px #cc4e5c",
-  },
-  ":active": {
-    boxShadow: "0 0px 0px 5px #cc4e5c",
-    transform: "translateY(0)",
+    background: "rgba(230, 230, 230, 0.7)",
   },
 });
 
@@ -31,4 +26,13 @@ export const listsWrapper = style({
   padding: "1rem",
   display: "flex",
   gap: "1rem",
+});
+
+export const plusStyle = style({
+  width: "20%",
+  height: "70%",
+});
+
+export const boardViewWrapper = style({
+  width: "65%",
 });

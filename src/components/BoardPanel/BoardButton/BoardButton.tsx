@@ -1,10 +1,13 @@
-import { BoardButtonStyle } from "./BoardButton.css";
+import { FaPlus } from "react-icons/fa6";
+import { BoardButtonStyle, AddBoardContainer } from "./BoardButton.css";
 import { addBoard } from "../../../store/reduxToolkit/boardSlice";
 import { useAppDispatch } from "../../../store/hook";
 import { v4 as uuidv4 } from "uuid";
+
 type BoardButtonProps = {
   label: string;
 };
+
 export default function BoardButton({ label }: BoardButtonProps) {
   const dispatch = useAppDispatch();
 
@@ -17,8 +20,11 @@ export default function BoardButton({ label }: BoardButtonProps) {
   };
 
   return (
-    <button onClick={handleClick} className={BoardButtonStyle}>
-      {label}
-    </button>
+    <div className={AddBoardContainer}>
+      <span>{label}</span>
+      <button onClick={handleClick} className={BoardButtonStyle}>
+        <FaPlus />
+      </button>
+    </div>
   );
 }

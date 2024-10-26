@@ -27,10 +27,10 @@ export default function Task({ taskId }: TaskProps) {
   const [descriptionText, setDescriptionText] = useState(
     task?.description || ""
   );
+  const [editedTitle, setEditedTitle] = useState(task?.title || "");
 
   const inlineTaskTitleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    dispatch(updateTaskTitle({ id: taskId, title: newTitle }));
+    setEditedTitle(e.target.value);
   };
 
   const handleDeleteTask = () => {
@@ -58,6 +58,19 @@ export default function Task({ taskId }: TaskProps) {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      dispatch(updateTaskTitle({ id: taskId, title: editedTitle }));
+      e.currentTarget.blur();
+    }
+  };
+
+  const handleBlurTitle = () => {
+    if (editedTitle !== task.title) {
+      dispatch(updateTaskTitle({ id: taskId, title: editedTitle }));
+    }
+  };
+
   if (!task) {
     return <div>No task found</div>;
   }
@@ -67,8 +80,10 @@ export default function Task({ taskId }: TaskProps) {
       <div className={taskHeader}>
         <input
           className={taskTitle}
-          value={task.title}
+          value={editedTitle}
           onChange={inlineTaskTitleEdit}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlurTitle}
         />
         <button className={TaskButton} onClick={() => setModalOpen(true)}>
           <FaEdit />
